@@ -58,7 +58,7 @@ To run the application, you need to migrate it first, and then run the `reducelo
 In the devstack, running under the `edxapp` user and in the `~/edx-platform` directory run:
 
 ```
-./manage.py lms --settings=devstack makemigrations openedx_session_time
+./manage.py lms --settings=devstack migrate openedx_session_time
 ./manage.py lms --settings=devstack reducelogs
 ```
 
