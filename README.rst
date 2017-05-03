@@ -5,12 +5,14 @@ The ``README.rst`` file should start with a brief description of the repository.
 
 Your project description goes here
 
+
 Overview (please modify)
 ------------------------
 
 The ``README.rst`` file should then provide an overview of the code in this
 repository, including the main components and useful entry points for starting
 to understand the code in more detail.
+
 
 How to install for development purposes
 ---------------------------------------
@@ -48,12 +50,15 @@ In the devstack, running under the `edxapp` user and in the `~/edx-platform` dir
 ./manage.py lms --settings=devstack makemigrations openedx_session_time
 ```
 
+
 How to run the management command
 ---------------------------------
 
+To run the application, you need to migrate it first, and then run the `reducelogs` management command.
 In the devstack, running under the `edxapp` user and in the `~/edx-platform` directory run:
 
 ```
+./manage.py lms --settings=devstack makemigrations openedx_session_time
 ./manage.py lms --settings=devstack reducelogs
 ```
 
@@ -62,6 +67,7 @@ Documentation
 -------------
 
 The full documentation is at https://openedx-session-time-tracker.readthedocs.org.
+
 
 License
 -------
