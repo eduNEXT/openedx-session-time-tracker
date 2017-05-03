@@ -12,6 +12,32 @@ The ``README.rst`` file should then provide an overview of the code in this
 repository, including the main components and useful entry points for starting
 to understand the code in more detail.
 
+How to install for development purposes
+---------------------------------------
+
+In a devstack connect to the edxapp user and change into the `/edx/src/` directory.
+
+```
+sudo su edxapp
+cd /edx/src/
+```
+
+Clone the repository (You can do this from outside of the vagrant VM if you want to use the local user of your system).
+
+```
+git clone git@github.com:eduNEXT/openedx-session-time-tracker.git
+```
+
+Install with the editable flag inside the virtualenv
+
+```
+cd /edx/src/openedx-session-time-tracker
+pip install -e .
+```
+
+Activate the application in your django settings.
+In `edx-platform/lms/envs/common.py` search for the `INSTALLED_APPS` tuple and add `openedx_session_time`.
+
 Documentation
 -------------
 
