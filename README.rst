@@ -38,6 +38,17 @@ pip install -e .
 Activate the application in your django settings.
 In `edx-platform/lms/envs/common.py` search for the `INSTALLED_APPS` tuple and add `openedx_session_time`.
 
+
+How to create migrations for this app
+-------------------------------------
+
+In the devstack, running under the `edxapp` user and in the `~/edx-platform` directory run:
+
+```
+./manage.py lms --settings=devstack makemigrations openedx_session_time
+```
+
+
 Documentation
 -------------
 

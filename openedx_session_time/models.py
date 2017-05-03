@@ -13,12 +13,12 @@ class SessionLog(models.Model):
     Defines the fields that are stored in the session log database.
     """
 
-    dtcreated = models.DateTimeField('creation date', auto_now_add=True)
+    dtcreated = models.DateTimeField('Creation date', auto_now_add=True)
     username = models.CharField(max_length=32, blank=True)
     courseid = models.TextField(blank=True)
-    session_duration = models.DateTimeField('session duration')
-    start_time = models.DateTimeField('started at')
-    end_time = models.DateTimeField('ended at')
+    session_duration = models.DurationField('Session duration')
+    start_time = models.DateTimeField('Started at')
+    end_time = models.DateTimeField('Ended at')
     host = models.CharField(max_length=64, blank=True)
 
     def __unicode__(self):
