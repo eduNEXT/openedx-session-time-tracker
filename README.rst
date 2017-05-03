@@ -48,6 +48,15 @@ In the devstack, running under the `edxapp` user and in the `~/edx-platform` dir
 ./manage.py lms --settings=devstack makemigrations openedx_session_time
 ```
 
+How to run the management command
+---------------------------------
+
+In the devstack, running under the `edxapp` user and in the `~/edx-platform` directory run:
+
+```
+./manage.py lms --settings=devstack reducelogs
+```
+
 
 Documentation
 -------------
