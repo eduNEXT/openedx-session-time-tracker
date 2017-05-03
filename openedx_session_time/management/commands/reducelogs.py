@@ -115,6 +115,7 @@ class Command(BaseCommand):
                     'course_id': course_id,
                     'session_start': logs[0].time,
                     'session_end': logs[-1].time,
+                    'session_duration': logs[-1].time - logs[0].time,
                 }
 
                 session_logs.append(session_object)
@@ -133,6 +134,7 @@ class Command(BaseCommand):
             - session start
             - session end
             - host
+            - session duration
         """
         session_logs = []
 
@@ -158,6 +160,7 @@ class Command(BaseCommand):
                 host=session_log['host'],
                 courseid=session_log['course_id'],
                 start_time=session_log['session_start'],
-                end_time=session_log['session_end']
+                end_time=session_log['session_end'],
+                session_duration=session_log['session_duration'],
             )
         self.stdout.write('session logs loaded on database')
