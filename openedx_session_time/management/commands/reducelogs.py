@@ -60,27 +60,23 @@ class Command(BaseCommand):
         is_valid = False
         course_id = None
         try:
-            splitted_event = log.event_type.split("/")
-            if 'course-' in splitted_event[2]:
-                course_id = splitted_event[2]
+            course_id = self.get_course_id(log)
         except Exception:
-            self.stdout.write('course_id not found on log ')
+            self.stdout.write('Discarding invalid Log -- Missing courseid')
         else:
             if course_id:
                 is_valid = True
 
         return is_valid
 
-    @staticmethod
-    def get_user_course_logs(logs, course):
+    def get_user_course_logs(self, logs, course):
         """
             Returns the logs for a course
         """
         user_course_logs = []
 
         for log in logs:
-            splitted_event = log.event_type.split("/")
-            course_id = splitted_event[2]
+            course_id = self.get_course_id(log)
             if course.get('course_id') == course_id:
                 user_course_logs.append(log)
 
@@ -125,10 +121,9 @@ class Command(BaseCommand):
         for logs in logslist:
             session_object = {}
             try:
-                splitted_event = logs[0].event_type.split("/")
-                course_id = splitted_event[2]
+                course_id = self.get_course_id(logs[0])
             except Exception:
-                self.stdout.write('could not get course_id')
+                self.stdout.write('Error generating session log -- could not get course_id')
             else:
                 session_object = {
                     'username': logs[0].username,
@@ -186,3 +181,13 @@ class Command(BaseCommand):
                 session_duration=session_log['session_duration'],
             )
         self.stdout.write('session logs loaded on database')
+
+    @staticmethod
+    def get_course_id(log):
+        course_id = None
+
+        splitted_event = log.event_type.split("/")
+        if 'course-' in splitted_event[2]:
+            course_id = splitted_event[2]
+
+        return course_id
