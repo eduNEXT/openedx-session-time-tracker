@@ -1,5 +1,6 @@
 """TODO"""
 
+from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 
 from student.models import CourseEnrollment
@@ -14,11 +15,30 @@ class Command(BaseCommand):
     """
     help = 'Reduces tracking logs into sessions logs'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--from_date',
+            type=lambda d: datetime.strptime(d, '%Y%m%d'),
+            required=False,
+            default=datetime.utcnow() - timedelta(days=1),
+        )
+        parser.add_argument(
+            '--to_date',
+            type=lambda d: datetime.strptime(d, '%Y%m%d'),
+            required=False,
+            default=datetime.utcnow(),
+        )
+
     def handle(self, *args, **options):
         """
             Body of reducelogs command
         """
-        valid_logs = self.clean_tracking_logs(TrackingLog.objects.all().order_by('time'))
+        from_date = options['from_date']
+        to_date = options['to_date']
+        valid_logs = self.clean_tracking_logs(
+            TrackingLog.objects.filter(time__range=(from_date, to_date)).order_by('time')
+        )
+
         users_with_logs = TrackingLog.objects.order_by().values('username').distinct()
         courses = CourseEnrollment.objects.order_by().values('course_id').distinct()
         reduced_logs = self.reduce_user_logs(users_with_logs, valid_logs, courses)
