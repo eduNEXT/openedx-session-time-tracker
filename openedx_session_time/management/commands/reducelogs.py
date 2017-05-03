@@ -12,6 +12,7 @@ class Command(BaseCommand):
     """
         Management Command reducelogs for tracking logs
     """
+    help = 'Reduces tracking logs into sessions logs'
 
     def handle(self, *args, **options):
         """
@@ -26,7 +27,7 @@ class Command(BaseCommand):
 
     def clean_tracking_logs(self, queryset):
         """
-            returns a list of valid logs to be reduced
+            Returns a list of valid logs to be reduced
         """
         logs = [log for log in queryset if self.is_valid(log)]
 
@@ -34,7 +35,7 @@ class Command(BaseCommand):
 
     def is_valid(self, log):
         """
-            for a log to be valid must have a course_id on event_type field
+            For a log to be valid must have a course_id on event_type field
         """
         is_valid = False
         course_id = None
@@ -53,7 +54,7 @@ class Command(BaseCommand):
     @staticmethod
     def get_user_course_logs(logs, course):
         """
-            it returns the logs for a course
+            Returns the logs for a course
         """
         user_course_logs = []
 
@@ -67,7 +68,7 @@ class Command(BaseCommand):
 
     def split_logs_by_session(self, user_course_logs, session_duration):
         """
-            method in charge of grouping tracking events
+            Method in charge of grouping tracking events
             as session events
         """
 
@@ -90,14 +91,14 @@ class Command(BaseCommand):
     @staticmethod
     def difference(log1, log2):
         """
-            computes the time difference between two tracking logs in seconds
+            Computes the time difference between two tracking logs in seconds
         """
         diff = log2.time - log1.time
         return diff.total_seconds()
 
     def generate_session_logs(self, logslist):
         """
-            it returns a session log object for every tracking log object in logs
+            Returns a session log object for every list of tracking logs
         """
         session_logs = []
 
@@ -126,8 +127,9 @@ class Command(BaseCommand):
         """
             parameter session_duration is in secconds
 
-            This method should return a list with session logs per user
+            This method returns a list with session logs per user
             group by time difference between tracking logs events.
+
             A session log has this attributes:
             - username
             - courseid
@@ -152,7 +154,7 @@ class Command(BaseCommand):
 
     def load_session_logs(self, loglist):
         """
-            creates session log db records
+            Creates session log db records
         """
         for session_log in loglist:
             SessionLog.objects.create(
