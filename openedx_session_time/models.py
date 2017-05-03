@@ -5,23 +5,24 @@ Database models for openedx_session_time.
 
 from __future__ import absolute_import, unicode_literals
 
-# from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-
-from model_utils.models import TimeStampedModel
+from django.db import models
 
 
-@python_2_unicode_compatible
-class SessionLog(TimeStampedModel):
+class SessionLog(models.Model):
     """
-    TODO: replace with a brief description of the model.
+    Defines the fields that are stored in the session log database.
     """
 
-    # TODO: add field definitions
+    dtcreated = models.DateTimeField('Creation date', auto_now_add=True)
+    username = models.CharField(max_length=32, blank=True)
+    courseid = models.TextField(blank=True)
+    session_duration = models.DurationField('Session duration')
+    start_time = models.DateTimeField('Started at')
+    end_time = models.DateTimeField('Ended at')
+    host = models.CharField(max_length=64, blank=True)
 
-    def __str__(self):
-        """
-        Get a string representation of this model instance.
-        """
-        # TODO: return a string appropriate for the data fields
-        return '<SessionLog, ID: {}>'.format(self.id)
+    def __unicode__(self):
+        fmt = (
+            u"[{self.session_duration}] {self.username}@{self.courseid}"
+        )
+        return fmt.format(self=self)
